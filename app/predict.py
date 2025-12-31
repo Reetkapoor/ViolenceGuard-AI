@@ -1,5 +1,4 @@
-THIS_IS_THE_FILE_I_AM_EDITING = False
-
+import logging
 import cv2
 import numpy as np
 from collections import deque
@@ -27,8 +26,17 @@ print("Loading model...")
 model = load_model(MODEL_PATH)
 print("Model loaded successfully!")
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | score=%(message)s",
+)
+
 # ---------------- FASTAPI APP ----------------
 app = FastAPI(title="Violence Detection API")
+
+# ---------------- ALERT MANAGER ----------------
+def send_alert(score, label):
+    print(f"🚨 ALERT TRIGGERED | score={score} | label={label}")
 
 # ---------------- CORE PREDICTION LOGIC ----------------
 def predict_video(video_path: str):
@@ -68,6 +76,7 @@ def predict_video(video_path: str):
                 final_label = "Violence"
                 final_confidence = confidence
                 alert_triggered = True
+                send_alert(confidence, label)
                 break
 
             final_label = label
@@ -75,12 +84,14 @@ def predict_video(video_path: str):
 
     cap.release()
 
+    logging.info(f"{final_confidence} | {final_label}")
     return {
         "timestamp": datetime.utcnow().isoformat(),
         "label": final_label,
         "confidence": round(final_confidence, 4),
         "alert": alert_triggered
     }
+
 
 # ---------------- API ENDPOINT ----------------
 @app.post("/predict")

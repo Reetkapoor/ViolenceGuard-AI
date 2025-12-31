@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.mp4
+*.avi
+*.log
+.env
+.git
+.ipynb_checkpoints/
+Training & Evaluation/
+

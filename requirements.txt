@@ -6,3 +6,4 @@ keras==2.15.0
 fastapi
 uvicorn
 python-multipart
+boto3

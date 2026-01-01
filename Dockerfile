@@ -23,6 +23,8 @@ RUN pip install --upgrade pip && \
 COPY app/ .
 
 # 7. Default command
-CMD ["python", "predict.py"]
+EXPOSE 8000
+
+CMD ["uvicorn", "predict:app", "--host", "0.0.0.0", "--port", "8000"]
 
 

@@ -1,3 +1,4 @@
+import boto3
 import logging
 import cv2
 import numpy as np
@@ -34,9 +35,28 @@ logging.basicConfig(
 # ---------------- FASTAPI APP ----------------
 app = FastAPI(title="Violence Detection API")
 
+# ---------------- ALERT EMAIL FROM SNS  ----------------
+sns_client = boto3.client(
+    "sns",
+    region_name=os.getenv("AWS_DEFAULT_REGION")
+)
+
+SNS_TOPIC_ARN = os.getenv("SNS_TOPIC_ARN")
+
 # ---------------- ALERT MANAGER ----------------
-def send_alert(score, label):
-    print(f"🚨 ALERT TRIGGERED | score={score} | label={label}")
+def send_alert(result):
+    message = (
+        f" VIOLENCE DETECTED \n\n"
+        f"Time: {result['timestamp']}\n"
+        f"Confidence: {result['confidence']}\n"
+        f"Label: {result['label']}"
+    )
+
+    sns_client.publish(
+        TopicArn=SNS_TOPIC_ARN,
+        Message=message,
+        Subject="Violence Alert"
+    )
 
 # ---------------- CORE PREDICTION LOGIC ----------------
 def predict_video(video_path: str):
@@ -76,7 +96,11 @@ def predict_video(video_path: str):
                 final_label = "Violence"
                 final_confidence = confidence
                 alert_triggered = True
-                send_alert(confidence, label)
+                send_alert({
+                        "timestamp": datetime.utcnow().isoformat(),
+                        "confidence": confidence,
+                        "label": label
+                    })
                 break
 
             final_label = label

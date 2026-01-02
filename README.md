@@ -49,7 +49,7 @@ How can a trained deep learning model for violence detection be served as a reli
 
 ### Model Inference Logic
 
-Input video is read frame-by-frame using OpenCV. The frames are first resized and normalised, then a fixed sequence is passed to the model. The model was trained from scratch on a local laptop and reused here only for inference. Predictons are smoothed using a sliding window. Final output includes label (Violence / NonViolence), confidence score, alert (flag), timestamp.
+Input video is read frame-by-frame using OpenCV. The frames are first resized and normalised, then a fixed sequence is passed to the model. The model was trained from scratch locally and reused here only for inference. Predictons are smoothed using a sliding window. Final output includes label (Violence / NonViolence), confidence score, alert (flag), timestamp.
 
 ### API Interface
 

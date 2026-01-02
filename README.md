@@ -36,10 +36,12 @@ How can a trained deep learning model for violence detection be served as a reli
 - Python
 - TensorFlow
 - MobileNetV2 + BiLSTM 
+
 **Backend & Deployment**
 - FastAPI
 - Uvicorn
 - Docker
+
 **AWS Services**
 - Amazon EC2 (t2.micro)
 - Amazon SNS (Email alerts)
@@ -52,7 +54,9 @@ Input video is read frame-by-frame using OpenCV. The frames are first resized an
 ### API Interface
 
 **Endpoint:** `POST /predict`
+
 **Request:** Path to a video file accessible by the service
+
 **Response (Example):**
 ```json
 {
@@ -96,7 +100,7 @@ docker run -d -p 8000:8000 \
 docker run -p 8000:8000 violence-detector
 ```
 Access API documentation:
-http://<EC2-IP>:8000/docs
+http://{EC2-IP}:8000/docs
 
 ### Challenges Faced
 - Converting a standalone ML script into a long-running API service
@@ -121,16 +125,21 @@ These limitations were accepted intentionally to ensure:
 - Cloud logging is essential for observability
 
 ### Data Sources
-[](https://www.kaggle.com/datasets/mohamedmustafa/real-life-violence-situations-dataset)
+[https://www.kaggle.com/datasets/mohamedmustafa/real-life-violence-situations-dataset](https://www.kaggle.com/datasets/mohamedmustafa/real-life-violence-situations-dataset)
 
 ### Similar Products
-1. [](https://www.abtosoftware.com/blog/violence-detection)
-2. [](https://appsource.microsoft.com/en-us/product/web-apps/oddityaibv1590144351772.violence_detection?tab=overview)
+1. [https://www.abtosoftware.com/blog/violence-detection](https://www.abtosoftware.com/blog/violence-detection)
+2. [https://appsource.microsoft.com/en-us/product/web-apps/oddityaibv1590144351772.violence_detection?tab=overview](https://appsource.microsoft.com/en-us/product/web-apps/oddityaibv1590144351772.violence_detection?tab=overview)
 
 ### Contact Me 
 Please feel free to contact me for anything in pertinence to the project.
-| -------- | ------------------------------ |
-| Email    | reetkapoor2901@gmail.com       |
-| LinkedIn | www.linkedin.com/in/reetkapoor |
-| -------- | ------------------------------ |
+### Contact Me
+
+Please feel free to contact me for anything in pertinence to the project.
+
+| Method    | Details                          |
+|----------|----------------------------------|
+| Email    | reetkapoor2901@gmail.com          |
+| LinkedIn | https://www.linkedin.com/in/reetkapoor |
+
 

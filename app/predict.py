@@ -27,10 +27,20 @@ print("Loading model...")
 model = load_model(MODEL_PATH)
 print("Model loaded successfully!")
 
+# ---------------- LOGGING ----------------
+LOG_DIR = "/var/log/violenceguard"
+os.makedirs(LOG_DIR, exist_ok=True)
+
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s | score=%(message)s",
+    format="%(asctime)s | %(levelname)s | %(message)s",
+    handlers=[
+        logging.FileHandler(f"{LOG_DIR}/violenceguard.log"),
+        logging.StreamHandler()
+    ]
 )
+
+logger = logging.getLogger(__name__)
 
 # ---------------- FASTAPI APP ----------------
 app = FastAPI(title="Violence Detection API")
@@ -46,7 +56,7 @@ SNS_TOPIC_ARN = os.getenv("SNS_TOPIC_ARN")
 # ---------------- ALERT MANAGER ----------------
 def send_alert(result):
     message = (
-        f" VIOLENCE DETECTED \n\n"
+        f" VIOLENCE DETECTED ! \n\n"
         f"Time: {result['timestamp']}\n"
         f"Confidence: {result['confidence']}\n"
         f"Label: {result['label']}"
@@ -108,7 +118,8 @@ def predict_video(video_path: str):
 
     cap.release()
 
-    logging.info(f"{final_confidence} | {final_label}")
+    logger.info(f"score={confidence} label={label} alert={alert_triggered}")
+
     return {
         "timestamp": datetime.utcnow().isoformat(),
         "label": final_label,

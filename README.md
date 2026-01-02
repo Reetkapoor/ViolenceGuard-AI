@@ -133,9 +133,6 @@ These limitations were accepted intentionally to ensure:
 
 ### Contact Me 
 Please feel free to contact me for anything in pertinence to the project.
-### Contact Me
-
-Please feel free to contact me for anything in pertinence to the project.
 
 | Method    | Details                          |
 |----------|----------------------------------|

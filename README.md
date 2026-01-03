@@ -113,6 +113,7 @@ http://{EC2-IP}:8000/docs
 - Single-instance deployment (no autoscaling)
 - Model weights are packaged locally, not via S3
 - CPU-only inference
+
 These limitations were accepted intentionally to ensure:
 - Cost control
 - Simplicity

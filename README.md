@@ -4,7 +4,7 @@
 
 This project implements a violence detection inference system using a deep learning model, deployed as a containerized FastAPI service on AWS EC2. The system performs video-based inference and sends email alerts using Amazon SNS when high-confidence violence is detected. Application logs are collected using Amazon CloudWatch.
 
-The primary goal of this project is to demonstrate how a trained machine learning model can be served, containerized, deployed, and monitored in the cloud in a cost-efficient manner using AWS Free Tier resources.
+The primary goal of this project is to demonstrate how a machine learning model can be trained locally, containerized, deployed, and monitored in the cloud in a cost-efficient manner using AWS Free Tier resources.
 
 ### Problem Statement
 

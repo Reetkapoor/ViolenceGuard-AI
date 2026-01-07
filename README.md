@@ -10,9 +10,7 @@ The primary goal of this project is to demonstrate how a machine learning model 
 
 Violence detection systems are often demonstrated only at the model level, without addressing how such models can be served, monitored, and integrated into real systems.
 
-This project addresses the following problem:
-
-How can a trained deep learning model for violence detection be served as a reliable inference service that can:
+This project investigates how a deep learning–based violence detection model can be trained from video data and then deployed as a production-ready inference service that can:
 - Accept video inputs
 - Perform automated violence detection
 - Trigger alerts on high-confidence events

@@ -83,6 +83,17 @@ No custom metrics or alarms were configured to remain within AWS Free Tier limit
 
 ### How to Run the Project
 ```bash
+#Launch EC2 & connect
+ssh -i "your-key.pem" ubuntu@<EC2-PUBLIC-IP>
+
+#Install Docker (if not already)
+sudo apt update
+sudo apt install -y docker.io
+sudo systemctl start docker
+
+#Clone Project
+git clone https://github.com/Reetkapoor/ViolenceGuard-AI.git
+
 #Build the Docker image
 docker build -t violence-detector .
 
@@ -90,7 +101,7 @@ docker build -t violence-detector .
 docker run -d -p 8000:8000 \
   -e AWS_ACCESS_KEY_ID=xxxx \
   -e AWS_SECRET_ACCESS_KEY=xxxx \
-  -e AWS_DEAFULT_REGION=xxxx \
+  -e AWS_DEFAULT_REGION=xxxx \
   -e SNS_TOPIC_ARN=xxxx \
   violence-detector
 
@@ -98,7 +109,7 @@ docker run -d -p 8000:8000 \
 docker run -p 8000:8000 violence-detector
 ```
 Access API documentation:
-http://{EC2-IP}:8000/docs
+http://<EC2-PUBLIC-IP>:8000/docs
 
 ### Challenges Faced
 - Converting a standalone ML script into a long-running API service

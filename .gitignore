@@ -209,3 +209,5 @@ __marimo__/
 # dataset
 Training & Evaluation/training_data/
 Training & Evaluation/testing_data/
+#key pair file
+ViolenceGuard-key-pair.pem

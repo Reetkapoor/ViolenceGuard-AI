@@ -109,8 +109,9 @@ docker run -d -p 8000:8000 \
 docker run -p 8000:8000 violence-detector
 ```
 Access API documentation:
+```bash
 http://<EC2-PUBLIC-IP>:8000/docs
-
+```
 ### Challenges Faced
 - Converting a standalone ML script into a long-running API service
 - Handling video-based inference on CPU-only infrastructure

@@ -28,7 +28,7 @@ jobs:
           pip install pytest httpx
 
       - name: Run tests
-        run: pytest -q
+        run: python -m pytest -q
 
       - name: Build Docker image
         run: docker build -t violenceguard-ai:ci .

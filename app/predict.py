@@ -28,7 +28,7 @@ model = load_model(MODEL_PATH)
 print("Model loaded successfully!")
 
 # ---------------- LOGGING ----------------
-LOG_DIR = "/var/log/violenceguard"
+LOG_DIR = os.getenv("LOG_DIR", "/var/log/violenceguard")
 os.makedirs(LOG_DIR, exist_ok=True)
 
 logging.basicConfig(
@@ -48,7 +48,7 @@ app = FastAPI(title="Violence Detection API")
 # ---------------- ALERT EMAIL FROM SNS  ----------------
 sns_client = boto3.client(
     "sns",
-    region_name=os.getenv("AWS_DEFAULT_REGION")
+    region_name=os.getenv("AWS_DEFAULT_REGION", "us-east-1")
 )
 
 SNS_TOPIC_ARN = os.getenv("SNS_TOPIC_ARN")

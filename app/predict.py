@@ -7,7 +7,7 @@ from tensorflow.keras.models import load_model
 import os
 from datetime import datetime
 
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException\nfrom fastapi.middleware.cors import CORSMiddleware
 import shutil
 import tempfile
 
@@ -44,6 +44,17 @@ logger = logging.getLogger(__name__)
 
 # ---------------- FASTAPI APP ----------------
 app = FastAPI(title="Violence Detection API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # ---------------- ALERT EMAIL FROM SNS  ----------------
 sns_client = boto3.client(

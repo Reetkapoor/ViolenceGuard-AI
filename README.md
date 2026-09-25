@@ -81,6 +81,27 @@ No custom metrics or alarms were configured to remain within AWS Free Tier limit
 
 ![CloudWatch Logs](Images/CloudWatch%20Logs.png)
 
+### React Monitoring Dashboard
+
+A React + Vite frontend is included in `frontend/`. It provides a monitoring dashboard that uploads supported video files to the FastAPI `/predict` endpoint and visualizes the returned classification, confidence score, alert state, and timestamp.
+
+Run the backend:
+```bash
+uvicorn app.predict:app --reload --port 8000
+```
+
+Run the dashboard:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The dashboard uses `http://localhost:8000` by default. To point it at a deployed API, create `frontend/.env.local`:
+```env
+VITE_API_URL=http://<EC2-PUBLIC-IP>:8000
+```
+
 ### How to Run the Project
 ```bash
 #Launch EC2 & connect

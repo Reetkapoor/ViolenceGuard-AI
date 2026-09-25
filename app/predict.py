@@ -7,7 +7,8 @@ from tensorflow.keras.models import load_model
 import os
 from datetime import datetime
 
-from fastapi import FastAPI, UploadFile, File, HTTPException\nfrom fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 import shutil
 import tempfile
 

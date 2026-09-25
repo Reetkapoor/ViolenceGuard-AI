@@ -1,20 +1,20 @@
-# Violence Detection and Alert System (Inference & Deployment Focused)
+# ViolenceGuard AI — Violence Detection & Alert System
 
 ### Overview
 
-This project implements a violence detection inference system using a deep learning model, deployed as a containerized FastAPI service on AWS EC2. The system performs video-based inference and sends email alerts using Amazon SNS when high-confidence violence is detected. Application logs are collected using Amazon CloudWatch.
+ViolenceGuard AI is a video-based violence detection system that combines a deep learning model with a FastAPI inference service, React monitoring dashboard, Docker, and AWS services. Users can upload video clips through the dashboard, trigger ML inference, view the predicted class and confidence score, and receive an Amazon SNS email alert when high-confidence violence is detected. Application logs are collected using Amazon CloudWatch.
 
-The primary goal of this project is to demonstrate how a machine learning model can be trained locally, containerized, deployed, and monitored in the cloud in a cost-efficient manner using AWS Free Tier resources.
+The project focuses on the complete path from ML inference to an integrated application: serving a trained video-classification model through an API, connecting it to a frontend, containerizing the backend, deploying it on AWS EC2, sending alerts, and monitoring runtime logs.
 
 ### Problem Statement
 
 Violence detection systems are often demonstrated only at the model level, without addressing how such models can be served, monitored, and integrated into real systems.
 
-This project investigates how a deep learning–based violence detection model can be trained from video data and then deployed as a production-ready inference service that can:
+The system is designed to:
 - Accept video inputs
 - Perform automated violence detection
 - Trigger alerts on high-confidence events
-- Be deployed and monitored in the cloud at zero cost
+- Be deployed and monitored on AWS using a cost-conscious setup
 
 ### Solution Architecture
 
@@ -35,6 +35,11 @@ This project investigates how a deep learning–based violence detection model c
 - TensorFlow
 - MobileNetV2 + BiLSTM 
 
+**Frontend**
+- React
+- Vite
+- JavaScript
+
 **Backend & Deployment**
 - FastAPI
 - Uvicorn
@@ -53,7 +58,7 @@ Input video is read frame-by-frame using OpenCV. The frames are first resized an
 
 **Endpoint:** `POST /predict`
 
-**Request:** Path to a video file accessible by the service
+**Request:** Multipart form-data containing a supported video file (`.mp4`, `.avi`, `.mov`, `.mkv`)
 
 **Response (Example):**
 ```json
@@ -83,26 +88,36 @@ No custom metrics or alarms were configured to remain within AWS Free Tier limit
 
 ### React Monitoring Dashboard
 
-A React + Vite frontend is included in `frontend/`. It provides a monitoring dashboard that uploads supported video files to the FastAPI `/predict` endpoint and visualizes the returned classification, confidence score, alert state, and timestamp.
+The `frontend/` directory contains a React + Vite monitoring dashboard for the inference service.
 
-Run the backend:
+**Dashboard flow:**
+1. Select or drag-and-drop a video clip.
+2. The frontend sends the video as multipart form-data to the FastAPI `/predict` endpoint.
+3. FastAPI runs the MobileNetV2 + BiLSTM inference pipeline.
+4. The dashboard displays the predicted class, confidence score, alert state, and inference timestamp.
+
+**Run locally:**
+
+Terminal 1 — backend:
 ```bash
 uvicorn app.predict:app --reload --port 8000
 ```
 
-Run the dashboard:
+Terminal 2 — frontend:
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-The dashboard uses `http://localhost:8000` by default. To point it at a deployed API, create `frontend/.env.local`:
+The dashboard opens at `http://localhost:5173` and uses `http://localhost:8000` as the default API URL. To connect it to a deployed backend, create `frontend/.env.local`:
 ```env
 VITE_API_URL=http://<EC2-PUBLIC-IP>:8000
 ```
 
-### How to Run the Project
+The FastAPI service includes CORS configuration for the local React development server.
+
+### Docker & AWS Deployment
 ```bash
 #Launch EC2 & connect
 ssh -i "your-key.pem" ubuntu@<EC2-PUBLIC-IP>
@@ -133,6 +148,20 @@ Access API documentation:
 ```bash
 http://<EC2-PUBLIC-IP>:8000/docs
 ```
+### Project Structure
+
+```text
+ViolenceGuard-AI/
+├── app/                    # FastAPI application and inference logic
+├── frontend/               # React + Vite monitoring dashboard
+├── tests/                  # Pytest API tests
+├── Images/                 # Architecture and deployment screenshots
+├── Weights/                # Trained model weights
+├── Dockerfile              # Backend container image
+├── requirements.txt        # Python dependencies
+└── .github/workflows/      # GitHub Actions CI
+```
+
 ### Challenges Faced
 - Converting a standalone ML script into a long-running API service
 - Handling video-based inference on CPU-only infrastructure
